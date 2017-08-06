@@ -1,0 +1,28 @@
+#! /usr/bin/env bash
+# Exit on failure; treat any failure in a pipe as the failure of the whole pipe
+set -eo pipefail
+
+## Initial plan
+# 1. read STDIN somehow
+input="$(< "${1:-/dev/stdin}")"
+
+# 2. Create a .html file by combining a template with STDIN data
+formatted_input='
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body><pre>'"${input}"'</pre></body>
+</html>
+'
+tmpdir="$(mktemp -dt bulman)"
+html_file="${tmpdir}/index.html"
+echo -n "${formatted_input}" > "${html_file}"
+
+# 3. call `open -a ...` to open the user's browser to view the file
+open "${html_file}"
+
+## Advanced Plan
+# 1. read STDIN somehow
+# 2. Create a .html file by combining a template with STDIN data
+# 3. Open a standalone Electron process to view the HTML file.
+# 4. Wait for electron to finish before exiting
