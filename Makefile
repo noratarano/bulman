@@ -3,8 +3,8 @@
 all : clean
 	make test
 
-bulman : bulma.css bulman.sh
-	cat bulman.sh bulma.css > bulman
+bulman : bulma.css program.sh
+	cat program.sh bulma.css > bulman
 	chmod +x bulman
 
 test : bulman
