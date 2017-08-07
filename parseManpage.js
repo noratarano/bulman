@@ -160,7 +160,6 @@ function main() {
   VDOM.mount(target, node);
 }
 
-
 if (typeof window !== 'undefined') {
   main();
 } else {
