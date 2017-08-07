@@ -17,16 +17,6 @@ function html_escape () {
   echo "$1" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g'
 }
 
-function template_replace_sed () {
-  local template="$1"
-  # assumed to be a resonable word-only string like "dog"
-  local key="$2"
-  # Escape sed special chars from the value, so we can use it safely
-  local value="$(echo "$3" | sed -e 's/[\/&\
-]/\\&/g')"
-  echo "$template" | sed 's/#{'"$key"'}/'"$value"'/g'
-}
-
 function template_replace_bash () {
   local template="$1"
   local key="$2"
@@ -35,11 +25,16 @@ function template_replace_bash () {
   log "Replacing $key"
 
   local search='#{'"$key"'}'
+  # dat bash tho
   echo "${template//$search/$value}"
 
   log "Done: $key"
 }
 
+# Arguments:
+# $1: a template string, to render
+# rest: key-value pairs. Each template marker named `key` is
+#       replaced with the given value
 function render () {
   local template="$1"
   shift
@@ -76,9 +71,9 @@ function main () {
   #          with actual HTML.
   # || true: read returns non-zero (aka an error) at EOF; so without || true,
   #          the set -e causes our program to exit!
-  read -r -d '' template <<"EOF" || true
+  read -r -d '' template <<'END_HTML' || true
 #{html}
-EOF
+END_HTML
   log "read template"
   output="$(render "$template" content "$(html_escape "$input")" styles_path "$THIS_FILE")"
   log "made output"
