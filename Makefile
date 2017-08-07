@@ -1,14 +1,13 @@
 .PHONY : all
 
-all : clean
-	make test
+all : clean test
 
-bulman : bulma.css program.sh
-	cat program.sh bulma.css > bulman
+bulman : program.sh bulma.css template.html parseManpage.js
+	./program.sh template.html bulma.css parseManpage.js > bulman
 	chmod +x bulman
 
 test : bulman
 	man mktemp | ./bulman
 
 clean :
-	rm bulman
+	rm -f bulman
