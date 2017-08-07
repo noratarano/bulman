@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="file://'"${path_to_bulman}"'" />
+  <title>Bulman - Terminal Pager</title>
+  <link rel="stylesheet" type="text/css" href="file://#{styles_path}">
 </head>
 <body>
 
@@ -9,42 +10,14 @@
   <div class="container">
     <div class="box">
       <div class="content">
-        <pre id="main">'"${safe_input}"'</pre>
+        <pre id="main">#{content}</pre>
       </div>
     </div>
   </div>
 </section>
 
 <script type="text/javascript">
-// man(1) outputs text that contains deletion characters to produce styles.
-// For example, _^Ha should be styled as <u>a</u>; and z^Hz should be styled as <b>z</b>
-var body = document.getElementByID("main");
-// given some text node, split that node apart at each delete character, and
-// style appropriately.
-function applyDeleteStyles(inTextNode) {
-  const del = "\b";
-  const text = inTextNode.wholeText;
-  var delAt = inTextNode.wholeText.indexOf(del);
-  // no delete chars; nothing to interpret
-  if (delAt === -1) {
-    console.log("No deletes in", text);
-    return;
-  }
-  // delete character is first, so we can't see the style character.
-  // give up.
-  if (delAt === 0) {
-    console.log("Cant interpret text starting with delete");
-    return;
-  }
-
-  const styleChar = text[delAt - 1];
-  const contentChar = text[delAt + 1];
-
-  const styleTagName = styleChar === "_" ? "U" : "B";
-
-  // if the preceding element is the right kind of style element, append it
-  // there.
-}
+#{javascript}
 </script>
 
 </body>
